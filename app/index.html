@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>RWD-Slider</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="container-fluid">
+	<h1>RWD-Slider</h1>
+    <p>A simple script for create a responsive slider in nativeJS</p>
+    <div id="slider">
+        <a class="nextBtn">Next</a>
+        <div class="sliderInner">
+            <figure><figcaption>Product #1</figcaption></figure>
+            <figure><figcaption>Product #2</figcaption></figure>
+            <figure><figcaption>Product #3</figcaption></figure>
+            <figure><figcaption>Product #4</figcaption></figure>
+            <figure><figcaption>Product #5</figcaption></figure>
+            <figure><figcaption>Product #6</figcaption></figure>
+            <figure><figcaption>Product #7</figcaption></figure>
+            <figure><figcaption>Product #8</figcaption></figure>
+            <figure><figcaption>Product #9</figcaption></figure>
+        </div>
+        <a class="prevBtn">Prev</a>
+        <div class="clearb"></div>
+    </div>
+</div>
+    <script src="js/script.js?=z"></script>
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var a = new rwdSlider({
+                wrapper : "#slider",
+                container : ".sliderInner",
+                item : "figure",
+                nbView : 4,
+                nbMove : 2
+            });
+        });
+	</script>
+</body>
+</html> 

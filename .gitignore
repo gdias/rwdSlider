@@ -1,0 +1,7 @@
+# extensions
+.git
+.DS_Store
+
+# folders & files
+node_modules
+readme.html
