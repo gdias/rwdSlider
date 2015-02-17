@@ -85,16 +85,17 @@ gulp.task('less', ['html'], function () {
 
 
 gulp.task('markdown', ['html'], function () {
-    return gulp.src('readme.md')
-        .pipe(markdown())
-        .pipe(gulp.dest('app'));
+    return gulp.src('./*.md')
+        .pipe(markdown({gfm:true}))
+        .pipe(gulp.dest('./'));
 });
 
+
+
 gulp.task('watch', ['browserify'], function() {
-  //gulp.watch(['./*.md'],['markdown','html']);
 	gulp.watch(['./app/*.html'], ['html']);
   gulp.watch(['./src/less/*.less'], ['less', 'html']);
-  //gulp.watch(['./*.md'],['markdown']);
+  gulp.watch(['./*.md'],['markdown']);
 });
 
 

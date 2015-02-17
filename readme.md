@@ -12,6 +12,9 @@ Simple script generate a slideshow component JS
 + Update size of items when "onResize"
 + Breakpoint for modify nbView 
 
+#### DEMO
+Clone this repository and in CLI : 
+> gulp
 
 ### HTML
 This plugin have need a structure as like that :
@@ -55,7 +58,7 @@ Ex : btn-next, BtnNext ...
 
 #### UseCase with breakpoint
 
-if you should to modify the number of element you show, can you pass in parameter an object contain the limit of breakpoint and number of show item.
+If you should to modify the number of element you show, can you pass in parameter an object containing the limit of breakpoint and number of show item.
 
 ```
 <script>
