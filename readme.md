@@ -1,11 +1,10 @@
 # Responsive Slider JS
 
 ## RWD-Slider
-> v 0.0.1
+> v 0.0.2
 
+Generate a responsive slideshow component in JavaScript
 
-Simple script generate a slideshow component JS
- 
 ### Features
 + Slider Responsive
 + Auto size items

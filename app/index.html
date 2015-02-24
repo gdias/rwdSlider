@@ -4,13 +4,13 @@
 	<meta charset="UTF-8">
 	<title>RWD-Slider</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="container-fluid">
 	<h1>RWD-Slider</h1>
-    <p>A simple script for create a responsive slider in nativeJS</p>
     <div id="slider">
-        <a class="nextBtn">Next</a>
+        <a class="prevBtn fa fa-arrow-left"></a>
         <div class="sliderInner">
             <figure><figcaption>Product #1</figcaption></figure>
             <figure><figcaption>Product #2</figcaption></figure>
@@ -22,20 +22,25 @@
             <figure><figcaption>Product #8</figcaption></figure>
             <figure><figcaption>Product #9</figcaption></figure>
         </div>
-        <a class="prevBtn">Prev</a>
+        <a class="nextBtn fa fa-arrow-right"></a>
+        
         <div class="clearb"></div>
     </div>
 </div>
-    <script src="js/script.js?=z"></script>
+    <script src="js/script.js"></script>
 	<script>
         document.addEventListener('DOMContentLoaded', function() {
-            var a = new rwdSlider({
+
+            // create a new slider
+            new rwdSlider({
                 wrapper : "#slider",
                 container : ".sliderInner",
                 item : "figure",
                 nbView : 4,
-                nbMove : 2
+                nbMove : 2,
+                breakpoint : {px:750,nb:2}
             });
+
         });
 	</script>
 </body>

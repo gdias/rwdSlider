@@ -62,30 +62,30 @@ var slider = function(opts) {
 
     /* Calculate steps of moves */
     slider.prototype.generateSteps = function(){
-
-      var pad = parseInt(this._itemWidth * this.options.nbMove);
-      var nbRestByView = (this._nbTotalItem % this._nbView); 
-      var tempNbStep = (this._nbTotalItem - nbRestByView); 
-      var nbSteps = (tempNbStep/this.options.nbMove) 
-
-      this._rest = (this._nbTotalItem % this.options.nbMove);
-
-      if (nbRestByView && (this.options.nbMove === this._nbView))
-        nbSteps = parseInt(nbSteps+1); // +1 when nbMove = nbShow and rest
-
-      this._steps = [];
-
-      for (var i = 0; i < nbSteps; i++) {
-        this._steps.push(parseInt(i*pad)); // add step on tab
-      }
-
-      this._nbSteps = parseInt(nbSteps); 
       
-      if (nbRestByView) { // change pad for last
-        var lastValueOfArray = parseInt(this._steps[this._steps.length-2]); // find last step
-        var newLastStep = lastValueOfArray + (this._rest*this._itemWidth);
-        this._steps[this._steps.length-1] = newLastStep;
-      }
+      var pad = parseInt(this._itemWidth * this.options.nbMove),
+          nbStepRest = parseInt(this._nbTotalItem - this._nbView),
+          nbStepRestByMove = parseFloat(nbStepRest / this.options.nbMove),
+          nbStepHiddenRestToStart = parseFloat(nbStepRestByMove + (this._nbView / this.options.nbMove)) - (parseFloat(this._nbView / this.options.nbMove)),
+          intNbSteps = parseInt(nbStepHiddenRestToStart),
+          restStep = extractF(nbStepHiddenRestToStart); // Extract floating number, return 0 if not floating result
+
+        this._steps = []; // set empty Array();
+        
+        this._steps.unshift(0) // addFirst Steps
+
+        for (var i = 1; i <= intNbSteps; i++) {
+          this._steps.push(parseInt(i*pad)); // add step on tab
+        }
+        
+        if (restStep) {
+          this._rest = (this._nbTotalItem - (intNbSteps*this._nbView))
+          var rRest = parseFloat(restStep/10);
+          var lastStep = this._steps[this._steps.length-1] + (rRest*pad);
+          this._steps.push(lastStep);
+        }
+
+        this._nbSteps = this._steps.length;
     }
 
     slider.prototype.bindEvents = function() {
@@ -116,19 +116,19 @@ var slider = function(opts) {
 
     slider.prototype.updateStepsBackWay = function() {
 
-      var steps = this._steps.splice(1,this._steps.length-2);
-      var indexTabInt = 1;
+      var steps = this._steps.splice(1,this._steps.length-2),
+          indexTabInt = 1;
       
       for (var c in steps) {
-        var valToUpdate = steps[c];
 
-        var decalage = parseInt(this._rest*this._itemWidth);
-        
-        var newStep = parseInt(valToUpdate-decalage);
+        var valToUpdate = steps[c],
+            decalage = parseInt(this._rest*this._itemWidth),
+            newStep = parseInt(valToUpdate-decalage);
         
         this._steps.splice(indexTabInt, 0, newStep);
         
         indexTabInt++;
+
       }
     }
 
