@@ -65,7 +65,7 @@ If you should to modify the number of element you show, can you pass in paramete
 		wrapper : "#slider",
 		nbView : 4,
         nbMove : 2,
-        breakpint : {
+        breakpoint : {
         	px:768,
         	nb:2
         }
