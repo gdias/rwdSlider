@@ -1,11 +1,10 @@
 # Responsive Slider JS
 
 ## RWD-Slider
-> v 0.0.1
+> v 0.0.2
 
+Generate a responsive slideshow component in JavaScript
 
-Simple script generate a slideshow component JS
- 
 ### Features
 + Slider Responsive
 + Auto size items
@@ -66,7 +65,7 @@ If you should to modify the number of element you show, can you pass in paramete
 		wrapper : "#slider",
 		nbView : 4,
         nbMove : 2,
-        breakpint : {
+        breakpoint : {
         	px:768,
         	nb:2
         }

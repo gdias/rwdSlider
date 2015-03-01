@@ -10,7 +10,7 @@
 <div class="container-fluid">
 	<h1>RWD-Slider</h1>
     <div id="slider">
-        <a class="prevBtn  fa fa-arrow-left"></a>
+        <a class="prevBtn fa fa-arrow-left"></a>
         <div class="sliderInner">
             <script id="article-list" type="text/x-handlebars-template">
                 {{#each article}}
@@ -22,16 +22,16 @@
         </div>
         <a class="nextBtn fa fa-arrow-right"></a>
         
-        <div class="clearb"></div>
+        
     </div>
 </div>
-    <script src="js/script.js?=z"></script>
+    <script src="js/script.js"></script>
 	<script>
         document.addEventListener('DOMContentLoaded', function() {
 
             // data and prepare demo
             demo();
-
+            
             // create a new slider
             new rwdSlider({
                 wrapper : "#slider",

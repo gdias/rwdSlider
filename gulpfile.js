@@ -98,5 +98,4 @@ gulp.task('watch', ['browserify'], function() {
   gulp.watch(['./*.md'],['markdown']);
 });
 
-
-gulp.task('default', ["server", "watch", "less"]);
+gulp.task('default', ["server", "watch", 'test']);

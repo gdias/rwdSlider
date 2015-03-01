@@ -1,3 +1,5 @@
+'use strict';
+
 var _h = require('handlebars');
 
 // File for demo
@@ -40,17 +42,17 @@ module.exports = function(){
 		    },
 		    {
 		        "title": "my product #7",
-		        "imgUrl": "http://static.fnac-static.com/multimedia/Images/FR/NR/ef/bd/5f/6274543/1539-1.jpg",
+		        "imgUrl": "http://static.fnac-static.com/multimedia/Images/FR/NR/84/f9/60/6355332/1545-1.jpg",
 		        "desc": "Description of product #7"
 		    }, 
 		    {
 		        "title": "my product #8",
-		        "imgUrl": "http://static.fnac-static.com/multimedia/Images/FR/NR/ef/bd/5f/6274543/1539-1.jpg",
+		        "imgUrl": "http://static.fnac-static.com/multimedia/Images/FR/NR/f7/38/4c/4995319/1545-4.jpg",
 		        "desc": "Description of product #8"
 		    },
 		    {
 		        "title": "my product #9",
-		        "imgUrl": "http://static.fnac-static.com/multimedia/Images/FR/NR/ef/bd/5f/6274543/1539-1.jpg",
+		        "imgUrl": "http://static.fnac-static.com/multimedia/Images/FR/NR/fe/f0/5e/6222078/1545-1.jpg",
 		        "desc": "Description of product #9"
 		    }
 	    ]
