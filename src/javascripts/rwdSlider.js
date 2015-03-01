@@ -4,6 +4,7 @@ var extend = require('./modules/extends');
 var extractF = require('./modules/extractFloating');
 var transitionValue = require("./modules/contructTransitionValue");
 var findElemClass = require("./modules/findElementByHasClass");
+var _ = require("lodash");
 
 var slider = function(opts) {
 
@@ -33,15 +34,13 @@ var slider = function(opts) {
         this._nbView = this.options.nbView, // Number of element viewing
         this._rest = 0; // rest of quotien
 
-   		//$(function(){
+   		
      		obj.getSizes(); // call method getAllSizes()
         obj.generateSteps(); // construct object of moves 
         obj.bindEvents(); // bind events
 
         if (obj.options.breakpoint.px)
           obj.responsive();
-
-      //});
 
    	}
 
@@ -93,7 +92,8 @@ var slider = function(opts) {
       var obj = this,
           wrap = this.options.wrapper,
           btnNext = findElemClass("a", wrap, "next"),
-          btnPrev = findElemClass("a", wrap, "prev");
+          btnPrev = findElemClass("a", wrap, "prev"),
+          renewPosition = function(){obj.responsive()};
 
       btnNext.click(function() {
         if (obj._position === 0) // reset way after change once
@@ -108,10 +108,10 @@ var slider = function(opts) {
 
           obj.move(false); // move right
       });
+      
+      // resize window event
+      window.addEventListener("resize", _.throttle(renewPosition, 200));
 
-      window.onresize = function() {
-        obj.responsive();
-      }
     }
 
     slider.prototype.updateStepsBackWay = function() {

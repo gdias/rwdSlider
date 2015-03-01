@@ -12,24 +12,23 @@
     <div id="slider">
         <a class="prevBtn fa fa-arrow-left"></a>
         <div class="sliderInner">
-            <figure><figcaption>Product #1</figcaption></figure>
-            <figure><figcaption>Product #2</figcaption></figure>
-            <figure><figcaption>Product #3</figcaption></figure>
-            <figure><figcaption>Product #4</figcaption></figure>
-            <figure><figcaption>Product #5</figcaption></figure>
-            <figure><figcaption>Product #6</figcaption></figure>
-            <figure><figcaption>Product #7</figcaption></figure>
-            <figure><figcaption>Product #8</figcaption></figure>
-            <figure><figcaption>Product #9</figcaption></figure>
+            <script id="article-list" type="text/x-handlebars-template">
+                {{#each article}}
+                <figure style="background-image : url('{{imgUrl}}')">
+                    <figcaption>{{title}}</figcaption>
+                </figure>
+                {{/each}}
+            </script>
         </div>
         <a class="nextBtn fa fa-arrow-right"></a>
-        
-        <div class="clearb"></div>
     </div>
 </div>
     <script src="js/script.js"></script>
 	<script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            // data and prepare demo
+            demo();
 
             // create a new slider
             new rwdSlider({
