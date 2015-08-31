@@ -1,10 +1,10 @@
 "use strict";
 
-var extend = require('./modules/extends');
-var extractF = require('./modules/extractFloating');
-var transitionValue = require("./modules/contructTransitionValue");
-var findElemClass = require("./modules/findElementByHasClass");
-var _ = require("lodash");
+var extend = require('./modules/extends')
+var extractF = require('./modules/extractFloating')
+var transitionValue = require("./modules/contructTransitionValue")
+var findElemClass = require("./modules/findElementByHasClass")
+var _ = require("lodash")
 
 var slider = function(opts) {
 
@@ -18,173 +18,191 @@ var slider = function(opts) {
     	breakpoint : {px:0, nb:0} // object contain breakpoints (number) / nbView (number)
    	}
 
-   	slider.prototype.init = function(){
+   	slider.prototype.init = function(self){
 
-   		extend(this.options, opts); // merge with options passed in parameter
+   		extend(this.options, opts) // merge with options passed in parameter
 
-      var obj = this; // closure
+        self = this // closure
 
-        this._sliderWidth, // width of view
-        this._itemWidth, // width of item
-        this._totalWidth, // total width (all items)
-        this._nbTotalItem, // total number of item
-        this._steps = [], // Array contain value of step
-        this._nbSteps = 0, // nbStep in slider
-        this._position = 0, // position of client
-        this._nbView = this.options.nbView, // Number of element viewing
-        this._rest = 0; // rest of quotien
+        this._sliderWidth // width of view
+        this._itemWidth // width of item
+        this._totalWidth // total width (all items)
+        this._nbTotalItem // total number of item
+        this._steps = [] // Array contain value of step
+        this._nbSteps = 0 // number of steps in slider
+        this._position = 0 // position of client
+        this._nbView = this.options.nbView // Number of element viewing
+        this._rest = 0 // rest of quotien
+        this._decalage = 0 // rest of movement (for last item if necessary)
+        this._pad = 0 // Number of pixels who represent a movement
+        this._stepsUpdated = false // true if steps has been updated by the back way
 
-   		
-     		obj.getSizes(); // call method getAllSizes()
-        obj.generateSteps(); // construct object of moves 
-        obj.bindEvents(); // bind events
+        if (typeof self.options.breakpoint.px === "undefined") {
+          self.getSizes() // call method getAllSizes()
+          self.generateSteps() // construct selfect of moves
+        } else {
+          self.responsive()
+        }
 
-        if (obj.options.breakpoint.px)
-          obj.responsive();
-
+        self.bindEvents() // bind events
+        self.checkViewControls() // check arrows
    	}
 
     /* adjust and set width() on slider */
-   	slider.prototype.getSizes = function() { 
-   		var obj = this;
-   		    obj._sliderWidth = $(obj.options.wrapper).width();
-   		    obj._nbTotalItem = $(obj.options.item, obj.options.wrapper).size();
-          obj._itemWidth = parseInt(obj._sliderWidth / obj._nbView);
-          obj._totalWidth = parseInt(obj._itemWidth * obj._nbTotalItem);
-      
-   		$(obj.options.item, obj.options.wrapper).each(function(){
-   		  $(this).width(obj._itemWidth);
-   		});
+   	slider.prototype.getSizes = function(self, wrapper) {
+      self = this
+      wrapper = document.querySelector(self.options.wrapper)
+      self._sliderWidth = document.querySelector(self.options.wrapper).clientWidth
+      self._nbTotalItem = wrapper.querySelectorAll(self.options.item).length
+      self._itemWidth = parseInt(self._sliderWidth / self._nbView, 10)
+      self._totalWidth = parseInt(self._itemWidth * self._nbTotalItem, 10)
 
-      $(obj.options.wrapper).find(obj.options.container).width(obj._totalWidth);
+      // set width on all items
+      _.map(wrapper.querySelectorAll(self.options.item), function(v, i){
+        v.style.width = self._itemWidth+"px"
+      })
+      // set width of wrapper
+      wrapper.querySelector(self.options.container).style.width = self._totalWidth+"px"
    	}
 
     /* Calculate steps of moves */
-    slider.prototype.generateSteps = function(){
-      
-      var pad = parseInt(this._itemWidth * this.options.nbMove),
-          nbStepRest = parseInt(this._nbTotalItem - this._nbView),
-          nbStepRestByMove = parseFloat(nbStepRest / this.options.nbMove),
-          nbStepHiddenRestToStart = parseFloat(nbStepRestByMove + (this._nbView / this.options.nbMove)) - (parseFloat(this._nbView / this.options.nbMove)),
-          intNbSteps = parseInt(nbStepHiddenRestToStart),
-          restStep = extractF(nbStepHiddenRestToStart); // Extract floating number, return 0 if not floating result
+    slider.prototype.generateSteps = function(self, pad, nbStepRest, nbStepRestByMove, nbStepHiddenRestToStart, intNbSteps, restStep){
+        self = this
+        pad = self._pad = parseInt(self._itemWidth * self.options.nbMove, 10)
+        nbStepRest = parseInt(self._nbTotalItem - self._nbView, 10)
+        nbStepRestByMove = parseFloat(nbStepRest / self.options.nbMove)  //1.25
 
-        this._steps = []; // set empty Array();
-        
-        this._steps.unshift(0) // addFirst Steps
+        nbStepHiddenRestToStart = parseFloat(nbStepRestByMove + (self._nbView / self.options.nbMove)) - (parseFloat(self._nbView / self.options.nbMove))
+        intNbSteps = parseInt(nbStepHiddenRestToStart, 10)
+        restStep = extractF(nbStepHiddenRestToStart) // Extract floating number, return 0 if not floating result
 
+        self._steps = []; // set empty Array();
+        self._steps.unshift(0) // addFirst Steps
         for (var i = 1; i <= intNbSteps; i++) {
-          this._steps.push(parseInt(i*pad)); // add step on tab
-        }
-        
-        if (restStep) {
-          this._rest = (this._nbTotalItem - (intNbSteps*this._nbView))
-          var rRest = parseFloat(restStep/10);
-          var lastStep = this._steps[this._steps.length-1] + (rRest*pad);
-          this._steps.push(lastStep);
+          self._steps.push(parseInt(i*pad, 10)) // add step on tab
         }
 
-        this._nbSteps = this._steps.length;
+        if (restStep) {
+          self._rest = (self._nbTotalItem - (intNbSteps * self._nbView))
+          var rRest = self._decalage = parseFloat(restStep/100)
+          var lastStep = self._steps[self._steps.length-1] + (rRest * pad)
+          self._steps.push(lastStep)
+        }
+        self._nbSteps = self._steps.length
+        self._stepsUpdated = false
     }
 
-    slider.prototype.bindEvents = function() {
-      
-      var obj = this,
-          wrap = this.options.wrapper,
-          btnNext = findElemClass("a", wrap, "next"),
-          btnPrev = findElemClass("a", wrap, "prev"),
-          renewPosition = function(){obj.responsive()};
+    slider.prototype.bindEvents = function(self, wrap, btnNext, btnPrev, renewPosition) {
+
+      self = this
+      wrap = self.options.wrapper
+      btnNext = findElemClass("a", wrap, "next")
+      btnPrev = findElemClass("a", wrap, "prev")
+      renewPosition = function(){self.responsive()}
 
       btnNext.click(function() {
-        if (obj._position === 0) // reset way after change once
-          obj.generateSteps();
+        if (self._position === 0 && !!self._stepsUpdated) // reset way after change once
+          self.generateSteps()
 
-        obj.move(true); // move left
+        self.move(true) // move left
       });
 
-      btnPrev.click(function() { 
-         if (obj._position === obj._steps.length-1) // backWay if at the end 
-            obj.updateStepsBackWay();
+      btnPrev.click(function() {
+         if (self._position === self._steps.length - 1 && !self._stepsUpdated) // backWay if at the end
+            self.updateStepsBackWay()
 
-          obj.move(false); // move right
+          self.move(false) // move right
       });
-      
+
       // resize window event
       window.addEventListener("resize", _.throttle(renewPosition, 200));
 
     }
 
-    slider.prototype.updateStepsBackWay = function() {
+    slider.prototype.updateStepsBackWay = function(self, steps, indexTabInt, nbSteps) {
+      self = this
+      steps = self._steps.splice(1,self._steps.length-2)
+      indexTabInt = 1
+      nbSteps = steps.length;
 
-      var steps = this._steps.splice(1,this._steps.length-2),
-          indexTabInt = 1;
-      
       for (var c in steps) {
+        var valToUpdate = steps[c]
+        var decalage = ((1 - self._decalage) * self._pad)
+        var newStep = parseInt(valToUpdate - decalage, 10)
 
-        var valToUpdate = steps[c],
-            decalage = parseInt(this._rest*this._itemWidth),
-            newStep = parseInt(valToUpdate-decalage);
-        
-        this._steps.splice(indexTabInt, 0, newStep);
-        
+        self._steps.splice(indexTabInt, 0, newStep);
         indexTabInt++;
-
       }
+
+      self._stepsUpdated = true // changed positions
     }
 
 
-    slider.prototype.move = function(way){
-      
+    slider.prototype.move = function(way, self){
+      self = this
       if (way) { // btn next
-        if (this._position < (this._nbSteps-1))
-          this._position = this._position + 1;
+        if (self._position < (self._nbSteps-1))
+          self._position = self._position + 1;
         else
           return;
       } else { // btn prev
-        if (this._position > 0)
-          this._position = this._position - 1;
+        if (self._position > 0)
+          self._position = self._position - 1;
         else
           return;
       }
 
-      // get Step position in M
-      this.setPosition(this._position);
-
+      self.setPosition(self._position); // get Step position in M
+      self.checkViewControls() // check arrows by this._position
     }
 
-    slider.prototype.setPosition = function(position) {
-      
-      var posX = transitionValue("-",this._steps[position],"px");
+    slider.prototype.setPosition = function(position, self, posX, wrapper, container) {
+      self = this
+      posX = transitionValue("-",self._steps[position],"px");
+      wrapper = document.querySelector(self.options.wrapper)
+      container = wrapper.querySelector(self.options.container)
 
+      // setPosition
+      container.style.transform = "translateX("+posX+")"
+
+      /*
       if (document.addEventListener) // if > IE8
-        $(this.options.wrapper).find(this.options.container).css("transform","translateX("+posX+")");
+        $(self.options.wrapper).find(self.options.container).css("transform","translateX("+posX+")");
       else {
-        $(this.options.wrapper).find(this.options.container).animate({"left":posX})
+        $(self.options.wrapper).find(self.options.container).animate({"left":posX})
       }
-
+      */
     }
 
-    slider.prototype.responsive = function() {
+    slider.prototype.responsive = function(self, breakP) {
+      self = this
+      breakP = (document.addEventListener ? window.matchMedia("(max-width:"+self.options.breakpoint.px+"px)").matches : (document.documentElement.clientWidth > self.options.breakpoint.px ? false : true))
 
-      if (document.addEventListener) // if > IE8
-        var breakP = window.matchMedia("(max-width:"+this.options.breakpoint.px+"px)").matches;
-      else
-        var breakP = ($(document).width() > this.options.breakpoint.px) ? false : true;
+      self._nbView = (breakP ? self.options.breakpoint.nb : self.options.nbView)
+      self._position = 0
+      self.setPosition(self._position)
+      self.getSizes()
+      self.generateSteps()
+    }
 
-      if (breakP) {
-        this._nbView = this.options.breakpoint.nb; // Mobile
+    slider.prototype.checkViewControls = function(self, wrap, btnNext, btnPrev){
+      self = this
+      wrap = self.options.wrapper
+      btnNext = findElemClass("a", wrap, "next")[0]
+      btnPrev = findElemClass("a", wrap, "prev")[0]
+
+      if (self._position === 0) {
+        btnPrev.classList.add("desactive")
+      } else if (self._position === self._steps.length - 1) {
+        btnNext.classList.add("desactive")
       } else {
-        this._nbView = this.options.nbView; // Desktop
+        btnNext.classList.remove("desactive")
+        btnPrev.classList.remove("desactive")
       }
-
-      this._position = 0;
-      this.setPosition(this._position);
-      this.getSizes();
-      this.generateSteps();
     }
 
    	// start
-    this.init(); 
+    this.init()
 
 }
 

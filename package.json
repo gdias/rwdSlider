@@ -42,5 +42,8 @@
     "wd": "mochify --wd",
     "cover": "mochify --cover",
     "test": "npm run phantom && npm run wd && npm run cover"
+  },
+  "dependencies": {
+    "sizzle": "^2.2.0"
   }
 }

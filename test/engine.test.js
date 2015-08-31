@@ -14,13 +14,13 @@ var methodToTest = function(obj) {
 		restStep = extractFloat(nbStepHiddenRestToStart); // Extract floating number, return 0 if not floating result
 
 	obj._steps = []; // set empty Array();
-	
+
 	obj._steps.unshift(0) // addFirst Steps
 
 	for (var i = 1; i <= intNbSteps; i++) {
 		obj._steps.push(parseInt(i*pad)); // add step on tab
 	}
-	
+
 	if (restStep) {
 		var rRest = parseFloat(restStep/10);
 		var lastStep = obj._steps[obj._steps.length-1] + (rRest*pad);
@@ -140,6 +140,17 @@ describe('Steps generated', function(){
 		var q = extend(o, p);
 		methodToTest(q);
 		q._nbSteps.should.equal(4);
+	});
+
+	it('Return steps for : view 4 - total 9 - move 4 = 3', function() {
+		var p = {
+			_nbView : 4,
+			_nbTotalItem: 9,
+			options : { nbMove : 4 }
+		};
+		var q = extend(o, p);
+		methodToTest(q);
+		q._nbSteps.should.equal(3);
 	});
 
 

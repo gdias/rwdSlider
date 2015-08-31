@@ -4,20 +4,19 @@
 	<meta charset="UTF-8">
 	<title>RWD-Slider</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
 </head>
 <body>
 <div class="container-fluid">
 	<h1>RWD-Slider</h1>
+	<p>
+		This page is a presentation of that script do. Context of page is responsive, with a large of window under of <strong>750px</strong>, the carrousel automatically <strong>show 2 elements</strong>.
+	</p>
     <div id="slider">
         <a class="prevBtn fa fa-arrow-left"></a>
         <div class="sliderInner">
             <script id="article-list" type="text/x-handlebars-template">
-                {{#each article}}
-                <figure style="background-image : url('{{imgUrl}}')">
-                    <figcaption>{{title}}</figcaption>
-                </figure>
-                {{/each}}
+                {{#each article}}<figure style="background-image : url('{{imgUrl}}')"><figcaption>{{title}}</figcaption></figure>{{/each}}
             </script>
         </div>
         <a class="nextBtn fa fa-arrow-right"></a>
@@ -27,7 +26,7 @@
 	<script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // data and prepare demo
+            // prepare data for demo
             demo();
 
             // create a new slider
@@ -36,11 +35,11 @@
                 container : ".sliderInner",
                 item : "figure",
                 nbView : 4,
-                nbMove : 2,
+                nbMove : 4,
                 breakpoint : {px:750,nb:2}
             });
 
         });
 	</script>
 </body>
-</html> 
+</html>

@@ -3,16 +3,19 @@
 ## RWD-Slider
 > v 0.0.2
 
-Generate a responsive slideshow component in JavaScript
+Generate a responsive slideshow component in native JavaScript.
 
 ### Features
 + Slider Responsive
 + Auto size items
 + Update size of items when "onResize"
-+ Breakpoint for modify nbView 
++ Breakpoint for modify nbView
++ Css classes for state of arrows
++ Without jQuery
 
 #### DEMO
-Clone this repository and in CLI : 
+Clone this repository and in CLI :
+> npm install
 > gulp
 
 ### HTML
@@ -28,7 +31,7 @@ This plugin have need a structure as like that :
 	<a class="btn-next"></a>
 </div>
 ```
-### JS 
+### JS
 ```
 <script>
 	new rwdSlider({
@@ -57,7 +60,7 @@ Ex : btn-next, BtnNext ...
 
 #### UseCase with breakpoint
 
-If you should to modify the number of element you show, can you pass in parameter an object containing the limit of breakpoint and number of show item.
+If you should to modify the number of element you show, you can pass in parameter an object containing the limit of breakpoint and number of show item.
 
 ```
 <script>
@@ -74,17 +77,13 @@ If you should to modify the number of element you show, can you pass in paramete
 ```
 
 ### Roadmap
-+ Add unit-tests
++ add mobile friendly mode
++ Add unit-tests for calcul position method
 + Breadcrum Automatic Generated
-+ Remove jQuery 
-+ Replace with Native JS Code and Sizzle for Selector Engine
-+ Optimize method for step calculs
 + Add examples
 
 ### Browsers
-> IE8+, Chrome, Firefox, Safari, Native Browser IOS & Android
+> IE9+, Chrome, Firefox, Safari, Native Browser IOS & Android
 
-### Licence 
+### Licence
 > 2015 MIT-Licence
-
-
