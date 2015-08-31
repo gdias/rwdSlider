@@ -14,7 +14,8 @@ Generate a responsive slideshow component in native JavaScript.
 + Without jQuery
 
 #### DEMO
-Clone this repository and in CLI :
+Clone this repository and get a DEMO
+In CLI >
 > npm install
 > gulp
 
@@ -31,6 +32,7 @@ This plugin have need a structure as like that :
 	<a class="btn-next"></a>
 </div>
 ```
+
 ### JS
 ```
 <script>

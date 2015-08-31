@@ -93,7 +93,6 @@ var slider = function(opts) {
     }
 
     slider.prototype.bindEvents = function(self, wrap, btnNext, btnPrev, renewPosition) {
-
       self = this
       wrap = self.options.wrapper
       btnNext = findElemClass("a", wrap, "next")
@@ -116,7 +115,6 @@ var slider = function(opts) {
 
       // resize window event
       window.addEventListener("resize", _.throttle(renewPosition, 200));
-
     }
 
     slider.prototype.updateStepsBackWay = function(self, steps, indexTabInt, nbSteps) {
@@ -164,14 +162,6 @@ var slider = function(opts) {
 
       // setPosition
       container.style.transform = "translateX("+posX+")"
-
-      /*
-      if (document.addEventListener) // if > IE8
-        $(self.options.wrapper).find(self.options.container).css("transform","translateX("+posX+")");
-      else {
-        $(self.options.wrapper).find(self.options.container).animate({"left":posX})
-      }
-      */
     }
 
     slider.prototype.responsive = function(self, breakP) {
